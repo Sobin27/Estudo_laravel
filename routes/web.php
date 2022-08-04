@@ -2,27 +2,18 @@
 
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 Route::get('/', 'PrincipalController@principal')->name('site.index');
+
 Route::get('/contato', 'ContatoController@contato')->name('site.contato');
 Route::post('/contato', 'ContatoController@salvar')->name('site.contato');
+
 Route::get('/sobrenos', 'SobreNosController@sobrenos')->name('site.sobrenos');
-Route::get('/login', 'SobreNosController@sobrenos')->name('site.login');
+Route::get('/login', function(){return 'login';})->name('site.login');
 
 Route::prefix('/app')->group(function(){
-    Route::get('/clientes', 'SobreNosController@sobrenos')->name('app.clientes');
-    Route::get('/fornecedores', 'FornecedorController@index')->name('app.fornecedores');
-    Route::get('/produtos', 'SobreNosController@sobrenos')->name('app.produtos');
+    Route::get('/clientes', function(){return 'Clientes';})->name('app.clientes')->middleware('autenticacao');
+    Route::get('/fornecedores', 'FornecedorController@index')->name('app.fornecedores')->middleware('autenticacao');
+    Route::get('/produtos', function(){return 'produtos';})->name('app.produtos')->middleware('autenticacao');
 });
 
 Route::get('/teste/{p1p}/{2}', 'TesteController@teste')->name('site.rota1');
