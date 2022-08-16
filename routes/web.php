@@ -8,15 +8,17 @@ Route::get('/contato', 'ContatoController@contato')->name('site.contato');
 Route::post('/contato', 'ContatoController@salvar')->name('site.contato');
 
 Route::get('/sobrenos', 'SobreNosController@sobrenos')->name('site.sobrenos');
-Route::get('/login', function(){return 'login';})->name('site.login');
 
-Route::prefix('/app')->group(function(){
-    Route::get('/clientes', function(){return 'Clientes';})->name('app.clientes')->middleware('autenticacao');
-    Route::get('/fornecedores', 'FornecedorController@index')->name('app.fornecedores')->middleware('autenticacao');
-    Route::get('/produtos', function(){return 'produtos';})->name('app.produtos')->middleware('autenticacao');
+Route::get('/login/{erro?}', 'LoginController@index')->name('site.login');
+Route::post('/login', 'LoginController@autenticar')->name('site.login');
+
+Route::prefix('/app')->middleware('autenticacao:padrao,visitante')->group(function(){
+    Route::get('/clientes', function(){return 'Clientes';})->name('app.clientes');
+    Route::get('/fornecedores', 'FornecedorController@index')->name('app.fornecedores');
+    Route::get('/produtos', function(){return 'produtos';})->name('app.produtos');
 });
 
-Route::get('/teste/{p1p}/{2}', 'TesteController@teste')->name('site.rota1');
+//Route::get('/teste/{p1p}/{2}', 'TesteController@teste')->name('site.rota1');
 
 
 Route::fallback(function(){

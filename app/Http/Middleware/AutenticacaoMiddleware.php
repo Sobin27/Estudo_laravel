@@ -13,13 +13,16 @@ class AutenticacaoMiddleware
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, $metodo_autenticacao,$perfil)
     {
-        if(true)
+        session_start();
+
+        if(isset($_SESSION['email']) && $_SESSION['email'] != '')
         {
             return $next($request);
         }
 
-        return Response('Usuário n autenticado'); 
+        return redirect()->route('site.login'. ['erro' => 2]);
+
     }
 }
