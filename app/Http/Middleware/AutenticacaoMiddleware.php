@@ -22,7 +22,7 @@ class AutenticacaoMiddleware
             return $next($request);
         }
 
-        return redirect()->route('site.login'. ['erro' => 2]);
+        return redirect()->route('site.login', ['erro' => 2]);
 
     }
 }
