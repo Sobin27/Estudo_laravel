@@ -39,7 +39,27 @@ class ProdutoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $regras = [
+            'nome' => 'required|min:3|max:40',
+            'descricao' => 'required|min:3|max:2000',
+            'peso' => 'required|integer',
+            'unidade_id' => 'exists:unidade,id',
+        ];
+
+        $feedack = [
+            'required' => 'O campo :attribute deve ser preenchido',
+            'nome.min' => 'O nome deve ter uma quantidade minima de 3 caracteres',
+            'nome.max' => 'O nome deve ter uma quantidade máxima de 40 caracteres',
+            'descricao.min' => 'A descrição deve ter uma quantidade minima de 3 caracteres',
+            'descricao.max' => 'A descrição deve ter uma quantidade máxima de 2000 caracteres',
+            'peso.integer' => 'O peso deve ser do tipo inteiro',
+            'unidade_id.exists' => 'A unidade de medida informada não existe'
+        ];
+
+        $request->validate($regras, $feedack);
+
+        Produto::create($request->all());
+        return redirect()->route('produto.index');
     }
 
     /**
@@ -50,7 +70,7 @@ class ProdutoController extends Controller
      */
     public function show(Produto $produto)
     {
-        //
+        return view('app.produto.show', ['produto' => $produto]);
     }
 
     /**
@@ -61,7 +81,8 @@ class ProdutoController extends Controller
      */
     public function edit(Produto $produto)
     {
-        //
+        $unidades = Unidade::all();
+        return view('app.produto.edit', ['produto' => $produto, 'unidades' => $unidades]);
     }
 
     /**
@@ -73,7 +94,8 @@ class ProdutoController extends Controller
      */
     public function update(Request $request, Produto $produto)
     {
-        //
+        $produto->update($request->all());
+        return redirect()->route('produto.show', ['produto' => $produto->id]);
     }
 
     /**
@@ -84,6 +106,7 @@ class ProdutoController extends Controller
      */
     public function destroy(Produto $produto)
     {
-        //
+        $produto->delete();
+        return redirect()->route('produto.index');
     }
 }

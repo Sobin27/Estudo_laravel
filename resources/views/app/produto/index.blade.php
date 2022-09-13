@@ -26,8 +26,9 @@
                             <th>Descrição</th>
                             <th>Peso</th>
                             <th>Unidade Id</th>
-                            <th></th>
-                            <th></th>
+                            <th>Vizualizar</th>
+                            <th>Excluir</th>
+                            <th>Editar</th>
                         </tr>
                     </thead>
 
@@ -38,8 +39,15 @@
                                 <td>{{$p->descricao}}</td>
                                 <td>{{$p->peso}}</td>
                                 <td>{{$p->unidade_id}}</td>
-                                <td><a href="{{route('app.fornecedor.excluir', $p->id)}}">Excluir</a></td>
-                                <td><a href="{{route('app.fornecedor.editar', $p->id)}}">Atualizar</a></td>
+                                <td><a href="{{ route('produto.show', ['produto' => $p->id]) }}">Vizualizar</a></td>
+                                <td>
+                                    <form id="form_{{$p->id}}" method="post" action="{{ route('produto.destroy', ['produto' => $p->id]) }}">
+                                    @method('DELETE')
+                                    @csrf
+                                    <a href="#" onclick="document.getElementById('form_{{$p->id}}').submit()">Excluir</a>
+                                    </form>
+                                </td>
+                                <td><a href="{{route('produto.edit', ['produto' => $p->id])}}">Atualizar</a></td>
                             </tr>
                         @endforeach
                     </tbody>
