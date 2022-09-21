@@ -14,6 +14,13 @@
         </div>
 
         <div class="informacao-pagina">
+
+            <h4>Produto</h4>
+            <div>Nome: {{$produto_detalhe->item->nome}}</div>
+            <br>
+            <div>Descrição: {{$produto_detalhe->item->descricao}}</div>
+            <br>
+
             <div style="width: 30%; margin-left:auto; margin-right:auto">
                 {{$msg ?? ''}}
                 <form method="post" action="{{ route('produto-detalhe.update', ['produto_detalhe' => $produto_detalhe->id]) }}" >
