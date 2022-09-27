@@ -21,6 +21,14 @@
                 {{$msg ?? ''}}
                 <form method="POST" action="{{ route('produto.store') }}" >
                     @csrf
+                    <select name="fornecedor_id">
+                        <option value="">-- Selecione um fornercedor --</option>
+
+                        @foreach ($fornecedor as $f)
+                        <option value="{{$f->id}}" {{ ($produto->fornecedor_id ?? old('fornecedor_id')) == $f->id ? 'selected' : '' }}>{{$f->nome}}</option>
+                        @endforeach
+                    </select>
+                    
                     <input type="text" name="nome" value = "{{ old('nome') }}" placeholder="Nome" class="borda-preta">
                     {{ $errors->has('nome') ? $errors->first('nome') : ''}}
 

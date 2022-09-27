@@ -22,6 +22,15 @@
                 <form method="post" action="{{ route('produto.update', ['produto' => $produto->id]) }}" >
                     @csrf
                     @method('PUT')
+                    <select name="fornecedor_id">
+                        <option value="">-- Selecione um fornercedor --</option>
+
+                        @foreach ($fornecedor as $f)
+                        <option value="{{$f->id}}" {{ ($produto->fornecedor_id ?? old('fornecedor_id')) == $f->id ? 'selected' : '' }}>{{$f->nome}}</option>
+                        @endforeach
+                    </select>
+
+                    {{ $errors->has('unidade_id') ? $errors->first('unidade_id') : ''}}
                     <input type="text" name="nome" value = " {{ $produto->nome ?? old('nome') }}" placeholder="Nome" class="borda-preta">
                     {{ $errors->has('nome') ? $errors->first('nome') : ''}}
 
